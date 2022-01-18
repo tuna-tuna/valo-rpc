@@ -5,37 +5,37 @@ import time
 import ctypes
 
 class Color:
-	BLACK          = '\033[30m'#(文字)黒
-	RED            = '\033[31m'#(文字)赤
-	GREEN          = '\033[32m'#(文字)緑
-	YELLOW         = '\033[33m'#(文字)黄
-	BLUE           = '\033[34m'#(文字)青
-	MAGENTA        = '\033[35m'#(文字)マゼンタ
-	CYAN           = '\033[36m'#(文字)シアン
-	WHITE          = '\033[37m'#(文字)白
-	COLOR_DEFAULT  = '\033[39m'#文字色をデフォルトに戻す
-	BOLD           = '\033[1m'#太字
-	UNDERLINE      = '\033[4m'#下線
-	INVISIBLE      = '\033[08m'#不可視
-	REVERCE        = '\033[07m'#文字色と背景色を反転
-	BG_BLACK       = '\033[40m'#(背景)黒
-	BG_RED         = '\033[41m'#(背景)赤
-	BG_GREEN       = '\033[42m'#(背景)緑
-	BG_YELLOW      = '\033[43m'#(背景)黄
-	BG_BLUE        = '\033[44m'#(背景)青
-	BG_MAGENTA     = '\033[45m'#(背景)マゼンタ
-	BG_CYAN        = '\033[46m'#(背景)シアン
-	BG_WHITE       = '\033[47m'#(背景)白
-	BG_DEFAULT     = '\033[49m'#背景色をデフォルトに戻す
-	RESET          = '\033[0m'#全てリセット
+	BLACK          = '\033[30m'
+	RED            = '\033[31m'
+	GREEN          = '\033[32m'
+	YELLOW         = '\033[33m'
+	BLUE           = '\033[34m'
+	MAGENTA        = '\033[35m'
+	CYAN           = '\033[36m'
+	WHITE          = '\033[37m'
+	COLOR_DEFAULT  = '\033[39m'
+	BOLD           = '\033[1m'
+	UNDERLINE      = '\033[4m'
+	INVISIBLE      = '\033[08m'
+	REVERCE        = '\033[07m'
+	BG_BLACK       = '\033[40m'
+	BG_RED         = '\033[41m'
+	BG_GREEN       = '\033[42m'
+	BG_YELLOW      = '\033[43m'
+	BG_BLUE        = '\033[44m'
+	BG_MAGENTA     = '\033[45m'
+	BG_CYAN        = '\033[46m'
+	BG_WHITE       = '\033[47m'
+	BG_DEFAULT     = '\033[49m'
+	RESET          = '\033[0m'
 
 kernel32 = ctypes.WinDLL('kernel32')
 user32 = ctypes.WinDLL('user32')
 hWnd = kernel32.GetConsoleWindow()
 kernel32.SetConsoleMode(kernel32.GetStdHandle(-10), (0x4|0x80|0x20|0x2|0x10|0x1|0x00|0x100)) #disable inputs to console
 kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7) #allow for ANSI sequences
-ctypes.windll.kernel32.SetConsoleTitleW(f"Valorant Discord Status Ver.1.0.0")
-print('Valorant Discord Status Ver.1.0.0\n')
+ctypes.windll.kernel32.SetConsoleTitleW(f"Valorant Discord Status Ver.0.1")
+print('Valorant Discord Status Ver.0.1\n')
 launchState = False
 discordState = False
 valorantState = False
