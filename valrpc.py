@@ -140,7 +140,6 @@ while True:
     for proc in psutil.process_iter():
         processes.append(proc.name())
     launchState = set(valorantProcess).issubset(processes)
-    print(launchState)
     if launchState == True:
         try:
             data = client.fetch_presence()
