@@ -4,9 +4,38 @@ from pypresence import Presence
 import time
 import ctypes
 
-#kernel32 = ctypes.WinDLL('kernel32')
-#kernel32.SetConcoleMode(kernel32.GetStdHandle(-10),(0x4|0x80|0x20|0x2|0x10|0x1|0x00|0x100))
-print('Valorant Discord Status Ver.1.0.0')
+class Color:
+	BLACK          = '\033[30m'#(文字)黒
+	RED            = '\033[31m'#(文字)赤
+	GREEN          = '\033[32m'#(文字)緑
+	YELLOW         = '\033[33m'#(文字)黄
+	BLUE           = '\033[34m'#(文字)青
+	MAGENTA        = '\033[35m'#(文字)マゼンタ
+	CYAN           = '\033[36m'#(文字)シアン
+	WHITE          = '\033[37m'#(文字)白
+	COLOR_DEFAULT  = '\033[39m'#文字色をデフォルトに戻す
+	BOLD           = '\033[1m'#太字
+	UNDERLINE      = '\033[4m'#下線
+	INVISIBLE      = '\033[08m'#不可視
+	REVERCE        = '\033[07m'#文字色と背景色を反転
+	BG_BLACK       = '\033[40m'#(背景)黒
+	BG_RED         = '\033[41m'#(背景)赤
+	BG_GREEN       = '\033[42m'#(背景)緑
+	BG_YELLOW      = '\033[43m'#(背景)黄
+	BG_BLUE        = '\033[44m'#(背景)青
+	BG_MAGENTA     = '\033[45m'#(背景)マゼンタ
+	BG_CYAN        = '\033[46m'#(背景)シアン
+	BG_WHITE       = '\033[47m'#(背景)白
+	BG_DEFAULT     = '\033[49m'#背景色をデフォルトに戻す
+	RESET          = '\033[0m'#全てリセット
+
+kernel32 = ctypes.WinDLL('kernel32')
+user32 = ctypes.WinDLL('user32')
+hWnd = kernel32.GetConsoleWindow()
+kernel32.SetConsoleMode(kernel32.GetStdHandle(-10), (0x4|0x80|0x20|0x2|0x10|0x1|0x00|0x100)) #disable inputs to console
+kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7) #allow for ANSI sequences
+ctypes.windll.kernel32.SetConsoleTitleW(f"Valorant Discord Status Ver.1.0.0")
+print('Valorant Discord Status Ver.1.0.0\n')
 launchState = False
 discordState = False
 valorantState = False
@@ -19,10 +48,10 @@ for proc in psutil.process_iter():
 discordState = set(discordProcess).issubset(processes)
 valorantState = set(valorantProcess).issubset(processes)
 if discordState == False:
-    print('Please launch Discord before using it.')
+    print(f'Please launch {Color.CYAN}Discord{Color.RESET} before using this tool.')
     termFlag = True
 if valorantState == False:
-    print('Please launch Valorant before using it.')
+    print(f'Please launch {Color.RED}Valorant{Color.RESET} before using this tool.')
     termFlag = True
 if discordState == True and valorantState == True:
     launchState = True
