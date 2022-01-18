@@ -1,0 +1,6 @@
+test/
+assets/
+__pycache__/
+build/
+dist/
+installer/
