@@ -6,3 +6,4 @@ dist/
 installer/
 *.spec
 valtest.py
+icon.ico
