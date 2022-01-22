@@ -84,6 +84,10 @@ while True:
                         smallimg = "kayo"
                     smalltext = chara
                     RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext, small_image=smallimg, small_text=smalltext)
+                else:
+                    details = 'In Shooting Range'
+                    largeimg = 'range'
+                    RPC.update(details=details, large_image=largeimg)
 
             elif data["sessionLoopState"] == "MENUS":
                 details = "In Menu"
