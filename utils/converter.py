@@ -21,6 +21,7 @@ class Converter:
     @staticmethod
     def convertCharaId(charaId: str):
         chara = ""
+        charaId = charaId.lower()
         if charaId == "5f8d3a7f-467b-97f3-062c-13acf203c006":
             chara = "Breach"
         elif charaId == "f94c3b30-42be-e959-889c-5aa313dba261":

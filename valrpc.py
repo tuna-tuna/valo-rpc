@@ -4,7 +4,8 @@ import time
 import ctypes
 from utils.processes import Processes
 from utils.converter import Converter
-
+from utils.colors import Color
+from utils.presence import valPresence
 
 kernel32 = ctypes.WinDLL('kernel32')
 user32 = ctypes.WinDLL('user32')
@@ -14,18 +15,26 @@ kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7) #allow for ANSI sequences
 ctypes.windll.kernel32.SetConsoleTitleW(f"Valorant Discord Status Ver.0.1")
 print('Valorant Discord Status Ver.0.1\n')
 launchState = False
+rpcState = False
 launchState, termFlag = Processes.checkStartup(launchState=launchState)
 if termFlag == True:
     print('Press any key to exit.')
     input()
     exit()
 
+client_id = '932219902452977697'
 if launchState == True:
     client = Client(region="ap")
     client.activate()
-    client_id = '932219902452977697'
     RPC = Presence(client_id=client_id)
-    RPC.connect()
+    try:
+        RPC.connect()
+        print(f"{Color.GREEN}Successfully connected to DiscordRPC.")
+        rpcState = True
+    except Exception as e:
+        print(f"{Color.RED}Something wrong occured while connecting to DiscordRPC.\nPlease send the traceback below to the developer.")
+        print(str(e))
+
 
 map = ""
 score = ""
@@ -40,6 +49,13 @@ while True:
     launchState = Processes.checkInLoop(launchState=launchState)
     if launchState == True:
         try:
+            if rpcState == False:
+                try:
+                    RPC.connect()
+                    rpcState = True
+                except Exception as e:
+                    print(f"{Color.RED}Something wrong occured while connecting to DiscordRPC.\nPlease send the traceback below to the developer.")
+                    print(str(e))
             data = client.fetch_presence()
             if data["sessionLoopState"] == "INGAME":
                 if data["provisioningFlow"] != "ShootingRange":
@@ -83,21 +99,35 @@ while True:
                     if chara == "KAY/O":
                         smallimg = "kayo"
                     smalltext = chara
-                    RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext, small_image=smallimg, small_text=smalltext)
+                    try:
+                        RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext, small_image=smallimg, small_text=smalltext)
+                    except Exception as e:
+                        print(f"{Color.RED}Something wrong occured while updating DiscordRPC.\nPlease send the traceback below to the developer.")
+                        print(str(e))
                 else:
                     details = 'In Shooting Range'
+                    state = 'Currently Active'
                     largeimg = 'range'
-                    RPC.update(details=details, large_image=largeimg)
+                    try:
+                        RPC.update(details=details, state=state, large_image=largeimg, large_text='Shooting Range')
+                    except Exception as e:
+                        print(f"{Color.RED}Something wrong occured while updating DiscordRPC.\nPlease send the traceback below to the developer.")
+                        print(str(e))
 
             elif data["sessionLoopState"] == "MENUS":
                 details = "In Menu"
+                state = "Currently  Active"
                 largeimg = "default"
                 largetext = "In Menu"
                 if data["isIdle"] == True:
                     largeimg = "away"
                     largetext = "AFK"
-                    details = "AFK"
-                RPC.update(details=details, large_image=largeimg, large_text=largetext)
+                    state = "Currently AFKing"
+                try:
+                    RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext)
+                except Exception as e:
+                    print(f"{Color.RED}Something wrong occured while updating DiscordRPC.\nPlease send the traceback below to the developer.")
+                    print(str(e))
             
             elif data["sessionLoopState"] == "PREGAME":
                 map = Converter.convertMapId(data["matchMap"])
@@ -126,13 +156,18 @@ while True:
                 state = "Map: " + map
                 largeimg = map.lower()
                 largetext = map
-                RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext)
+                try:
+                    RPC.update(details=details, state=state, large_image=largeimg, large_text=largetext)
+                except Exception as e:
+                    print(f"{Color.RED}Something wrong occured while updating DiscordRPC.\nPlease send the traceback below to the developer.")
+                    print(str(e))
 
         except:
             continue
 
     else:
-        RPC.clear()
+        RPC.close()
+        rpcState = False
     
     time.sleep(15)
 
